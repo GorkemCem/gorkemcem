@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Görkem Cem Güven | Software Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --primary-color: #00f0ff;
+            --secondary-color: #7000ff;
+            --text-color: #e0e0e0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.15), transparent 25%);
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--secondary-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+        /* Navbar & Language Switcher */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .nav-right { display: flex; align-items: center; gap: 40px; }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background: var(--primary-color);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .lang-switch {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            display: flex;
+            gap: 10px;
+            color: #666;
+        }
+        .lang-switch span {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-switch span:hover { color: var(--primary-color); }
+        .lang-switch .active {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center; padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem; font-weight: 700; margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typewriter {
+            font-family: 'Fira Code', monospace; font-size: 1.5rem;
+            color: #a0a0a0; margin-bottom: 30px; min-height: 35px;
+        }
+
+        .cursor {
+            display: inline-block; width: 3px; height: 1.2em;
+            background-color: var(--primary-color);
+            animation: blink 0.75s infinite; vertical-align: text-bottom;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .btn {
+            padding: 12px 30px; border: 1px solid var(--primary-color);
+            background: transparent; color: var(--primary-color);
+            font-family: 'Fira Code', monospace; font-size: 1rem;
+            border-radius: 4px; cursor: pointer; text-decoration: none;
+            transition: 0.3s; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+        .btn:hover {
+            background: var(--primary-color); color: var(--bg-color);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        /* Sections & Cards */
+        section { padding: 100px 10%; }
+        .section-title {
+            font-family: 'Fira Code', monospace; font-size: 2.5rem;
+            margin-bottom: 50px; text-align: center; color: #fff;
+        }
+        .section-title span { color: var(--primary-color); }
+
+        .hidden {
+            opacity: 0; transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .show { opacity: 1; transform: translateY(0); }
+
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
+        }
+        .glass-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); padding: 30px; border-radius: 15px;
+            transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px); border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+        }
+        .glass-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: #fff; }
+        .glass-card p { color: #a0a0a0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tech-tags span {
+            font-family: 'Fira Code', monospace; font-size: 0.8rem;
+            padding: 5px 10px; background: rgba(0, 240, 255, 0.1);
+            color: var(--primary-color); border-radius: 4px;
+        }
+
+        /* Timeline */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after {
+            content: ''; position: absolute; width: 2px; background: var(--glass-border);
+            top: 0; bottom: 0; left: 50%; margin-left: -1px;
+        }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+        .timeline-item.left { left: 0; text-align: right; }
+        .timeline-item.right { left: 50%; }
+        .timeline-item::after {
+            content: ''; position: absolute; width: 16px; height: 16px;
+            right: -8px; background: var(--bg-color); border: 3px solid var(--secondary-color);
+            top: 15px; border-radius: 50%; z-index: 1; transition: 0.3s;
+        }
+        .timeline-item.right::after { left: -8px; }
+        .timeline-item:hover::after {
+            background: var(--primary-color); border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+        .timeline-content {
+            padding: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px;
+        }
+        .timeline-content h4 { color: #fff; margin-bottom: 5px; }
+        .timeline-content .date { color: var(--primary-color); font-family: 'Fira Code', monospace; font-size: 0.85rem; display: block; margin-bottom: 10px;}
+        .timeline-content p { color: #a0a0a0; font-size: 0.9rem; }
+
+        footer {
+            text-align: center; padding: 30px; border-top: 1px solid var(--glass-border);
+            font-family: 'Fira Code', monospace; color: #666;
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item.right { left: 0; }
+            .timeline-item.left::after, .timeline-item.right::after { left: 23px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">&lt;GCG /&gt;</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#home" data-i18n="nav_home">/start</a></li>
+                <li><a href="#about" data-i18n="nav_about">/über-mich</a></li>
+                <li><a href="#projects" data-i18n="nav_projects">/projekte</a></li>
+                <li><a href="#awards" data-i18n="nav_awards">/erfahrungen</a></li>
+            </ul>
+            <div class="lang-switch">
+                <span id="btn-de" class="active" onclick="setLanguage('de')">DE</span> | 
+                <span id="btn-en" onclick="setLanguage('en')">EN</span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1>Görkem Cem Güven</h1>
+        <div class="typewriter">
+            <span id="typed-text"></span><span class="cursor"></span>
+        </div>
+        <a href="#projects" class="btn" data-i18n="hero_btn">System betreten _</a>
+    </section>
+
+    <section id="about" class="hidden">
+        <h2 class="section-title"><span data-i18n="about_num">01.</span> <span data-i18n="about_title">Über mich</span></h2>
+        <div class="glass-card" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="font-size: 1.1rem;" data-i18n="about_text">
+                Ich lebe in Bremen und studiere Informatik an der FernUniversität in Hagen. Meine Leidenschaft für die Softwareentwicklung hat mich dazu gebracht, Erfahrungen in den unterschiedlichsten Bereichen zu sammeln – von Webanwendungen und Spielen bis hin zu Bot-Software und internationalen Robotik-Wettbewerben. Mein größter Fokus liegt derzeit auf der Entwicklung meiner eigenen Social-Media-Plattform, Rawly.
+            </p>
+            <div class="tech-tags" style="justify-content: center; margin-top: 20px;">
+                <span>C#</span><span>.NET MAUI</span><span>PHP</span><span>HTML/CSS</span><span>Unreal Engine</span><span>Python</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title hidden"><span data-i18n="proj_num">02.</span> <span data-i18n="proj_title">Projekte</span></h2>
+        <div class="grid-container">
+            
+            <div class="glass-card hidden">
+                <h3><i class="fa-solid fa-hashtag"></i> Rawly</h3>
+                <p data-i18n="proj_1">Rawly ist eine aufgabenbasierte Social-Media-Plattform, die den Nutzern jeden Tag eine neue kreative Foto-Herausforderung stellt. Die Architektur kombiniert ein C#-Backend, ein JavaScript-Frontend und C++ für die Kernprozesse und Bildverarbeitung, um ein hoch skalierbares und interaktives Erlebnis zu bieten.</p>
+                <div class="tech-tags"><span>Full-Stack</span><span>Social Network</span></div>
+            </div>
+
+            <div class="glass-card hidden">
+                <h3><i class="fa-solid fa-plane-departure"></i> Price Tracker Bot</h3>
+                <p data-i18n="proj_2">Ein PHP-basierter Bot, der regelmäßig Flugticketpreise ausliest und bei Preissenkungen Echtzeit-Warnungen über die Telegram-API sendet.</p>
+                <div class="tech-tags"><span>PHP</span><span>Telegram API</span><span>Web Scraping</span></div>
+            </div>
+
+            <div class="glass-card hidden">
+                <h3><i class="fa-solid fa-gamepad"></i> GameJam Projects</h3>
+                <p data-i18n="proj_3">Lose Yourself (Mağara Jam #5): An atmospheric psychological horror game developed in just 72 hours using Unreal Engine. As the sole programmer on the team, I was entirely responsible for the complete codebase and coding all core mechanics (labyrinth, flashlight, collectibles). With this project, we successfully ranked in the Top 10 out of thousands of participants.</p>
+                <div class="tech-tags"><span>Unreal Engine</span><span>Game Design</span></div>
+            </div>
+
+            <div class="glass-card hidden">
+                <h3><i class="fa-solid fa-code"></i> Freelance Web Dev</h3>
+                <p data-i18n="proj_4">Ich habe schnelle, SEO-freundliche und responsive Webplattformen für lokale Unternehmen wie Pilates-/Fitnessstudios in und um Bremen programmiert.</p>
+                <div class="tech-tags"><span>HTML/CSS</span><span>JS</span><span>GitHub Pages</span></div>
+            </div>
+
+            <div class="glass-card hidden">
+                <h3><i class="fa-solid fa-server"></i> FiveM Systems</h3>
+                <p data-i18n="proj_5">FiveM Full Server Packages: Ich habe komplette, sofort spielbare Server-Pakete für GTA V Roleplay von Grund auf mit JavaScript und Lua entwickelt. Kunden konnten diese Plug-and-Play-Lösungen erwerben und ihre eigenen Server direkt und ohne weitere Konfiguration starten.</p>
+                <div class="tech-tags"><span>Lua</span><span>SQL</span><span>Game Server</span></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="awards">
+        <h2 class="section-title hidden"><span data-i18n="aw_num">03.</span> <span data-i18n="aw_title">Auszeichnungen & Erfahrungen</span></h2>
+        <div class="timeline">
+            
+            <div class="timeline-item left hidden">
+                <div class="timeline-content">
+                    <h4>FIRST Robotics Competition</h4>
+                    <span class="date">2020 - 2023</span>
+                    <p data-i18n="aw_1">Aktiver Teilnehmer mit Team #8042 bei den Turnieren Bosphorus 2020, Saison 2021 und Istanbul Regional 2022; Mentor beim Haliç Regional 2023[cite: 6, 7, 8, 9].</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right hidden">
+                <div class="timeline-content">
+                    <h4>Mağara Jam</h4>
+                    <span class="date">2021 - 2022</span>
+                    <p data-i18n="aw_2">Teilnahme als Spieleentwickler im Juli 2021 (Mağara Jam #3) und Februar 2022 (Mağara Jam #4). Habe meine Fähigkeiten in Krisenmanagement und Teamarbeit auf die Probe gestellt[cite: 2, 3].</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left hidden">
+                <div class="timeline-content">
+                    <h4 data-i18n="aw_3_title">Robotik-Meisterschaften</h4>
+                    <span class="date" data-i18n="aw_3_date">Vorherige Jahre</span>
+                    <p data-i18n="aw_3">Meisterschaftspokale und Teamauszeichnungen, die beim UmakerFest, der FIRST LEGO League (FLL) und verschiedenen lokalen Turnieren gewonnen wurden[cite: 5].</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right hidden">
+                <div class="timeline-content">
+                    <h4 data-i18n="aw_4_title">ApplyBAU & Bildung</h4>
+                    <span class="date">2019 - 2020</span>
+                    <p data-i18n="aw_4">Erfolgreicher Abschluss des BAU MOVE UP-Trainingsprogramms. Dank meiner Projekte erhielt ich die Zulassung für die Fachbereiche Computer Engineering, Software Engineering und Digital Game Design[cite: 1, 4].</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p data-i18n="footer">> GCG_System.exit(); <br> &copy; 2026 Görkem Cem Güven. Alle Systeme im Normalbereich.</p>
+    </footer>
+
+    <script>
+        // --- MULTILANGUAGE DICTIONARY ---
+        const translations = {
+            de: {
+                nav_home: "/start", nav_about: "/über-mich", nav_projects: "/projekte", nav_awards: "/erfahrungen",
+                hero_btn: "System betreten _",
+                about_num: "01.", about_title: "Über mich",
+                about_text: "Ich lebe in Bremen und studiere Informatik an der FernUniversität in Hagen. Meine Leidenschaft für die Softwareentwicklung hat mich dazu gebracht, Erfahrungen in den unterschiedlichsten Bereichen zu sammeln – von Webanwendungen und Spielen bis hin zu Bot-Software und internationalen Robotik-Wettbewerben. Mein größter Fokus liegt derzeit auf der Entwicklung meiner eigenen Social-Media-Plattform, Rawly.",
+                proj_num: "02.", proj_title: "Projekte",
+                proj_1: "Rawly ist eine aufgabenbasierte Social-Media-Plattform, die den Nutzern jeden Tag eine neue kreative Foto-Herausforderung stellt. Die Architektur kombiniert ein C#-Backend, ein JavaScript-Frontend und C++ für die Kernprozesse und Bildverarbeitung, um ein hoch skalierbares und interaktives Erlebnis zu bieten.",
+                proj_2: "Ein PHP-basierter Bot, der regelmäßig Flugticketpreise ausliest und bei Preissenkungen Echtzeit-Warnungen über die Telegram-API sendet.",
+                proj_3: "Ein atmosphärisches Psycho-Horror-Spiel, das in nur 72 Stunden mit der Unreal Engine entwickelt wurde. Als einziger Programmierer im Team war ich vollständig für die gesamte Codebasis und die Entwicklung der Kernmechaniken (Labyrinth, Taschenlampe, Sammelobjekte) verantwortlich. Mit diesem Projekt haben wir es unter tausenden Teilnehmern in die Top 10 geschafft.",
+                proj_4: "Ich habe schnelle, SEO-freundliche und responsive Webplattformen für lokale Unternehmen wie Pilates-/Fitnessstudios in und um Bremen programmiert.",
+                proj_5: "FiveM Full Server Packages: Ich habe komplette, sofort spielbare Server-Pakete für GTA V Roleplay von Grund auf mit JavaScript und Lua entwickelt. Kunden konnten diese Plug-and-Play-Lösungen erwerben und ihre eigenen Server direkt und ohne weitere Konfiguration starten.",
+                aw_num: "03.", aw_title: "Auszeichnungen & Erfahrungen",
+                aw_1: "Aktiver Teilnehmer mit Team #8042 bei den Turnieren Bosphorus 2020, Saison 2021 und Istanbul Regional 2022; Mentor beim Haliç Regional 2023.",
+                aw_2: "Teilnahme als Spieleentwickler im Juli 2021 (Mağara Jam #3) und Februar 2022 (Mağara Jam #4). Habe meine Fähigkeiten in Krisenmanagement und Teamarbeit auf die Probe gestellt.",
+                aw_3_title: "Robotik-Meisterschaften", aw_3_date: "Vorherige Jahre",
+                aw_3: "Meisterschaftspokale und Teamauszeichnungen, die beim UmakerFest, der FIRST LEGO League (FLL) und verschiedenen lokalen Turnieren gewonnen wurden.",
+                aw_4_title: "ApplyBAU & Bildung",
+                aw_4: "Erfolgreicher Abschluss des BAU MOVE UP-Trainingsprogramms. Dank meiner Projekte erhielt ich die Zulassung für die Fachbereiche Computer Engineering, Software Engineering und Digital Game Design.",
+                footer: "> GCG_System.exit(); <br> &copy; 2026 Görkem Cem Güven. Alle Systeme im Normalbereich."
+            },
+            en: {
+                nav_home: "/home", nav_about: "/about", nav_projects: "/projects", nav_awards: "/experience",
+                hero_btn: "Enter System _",
+                about_num: "01.", about_title: "About Me",
+                about_text: "I live in Bremen, Germany, and am studying Computer Science at FernUniversität in Hagen. My passion for software development has led me to gain experience in a wide range of areas, from web applications and games to bot software and international robotics competitions. My biggest focus right now is developing my own social media platform, Rawly.",
+                proj_num: "02.", proj_title: "Projects",
+                proj_1: "Rawly is a task-based social media platform that gives users a new creative daily photo challenge. The architecture combines a C# backend, a JavaScript frontend, and C++ for core processing and image manipulation, delivering a highly scalable and interactive community experience.",
+                proj_2: "A PHP-based bot that regularly scrapes flight ticket prices and sends real-time alerts via the Telegram API when the price drops.",
+                proj_3: "Lose Yourself (Mağara Jam #5): An atmospheric psychological horror game developed in just 72 hours using Unreal Engine. As the sole programmer on the team, I was entirely responsible for the complete codebase and coding all core mechanics (labyrinth, flashlight, collectibles). With this project, we successfully ranked in the Top 10 out of thousands of participants.",
+                proj_4: "Coded fast, SEO-friendly, and responsive web platforms for local businesses like Pilates and Fitness studios in and around Bremen.",
+                proj_5: "FiveM Full Server Packages: I developed complete, ready-to-play server packages for GTA V Roleplay from scratch using JavaScript and Lua. Customers could purchase these plug-and-play solutions and immediately launch their own servers without requiring any further configuration.",
+                aw_num: "03.", aw_title: "Awards & Experience",
+                aw_1: "Active competitor with Team #8042 at the 2020 Bosphorus, 2021 Season, and 2022 Istanbul Regional tournaments; mentored at the 2023 Haliç Regional.",
+                aw_2: "Participated as a Game Developer in July 2021 (Mağara Jam #3) and February 2022 (Mağara Jam #4). Tested my crisis management and teamwork skills.",
+                aw_3_title: "Robotics Championships", aw_3_date: "Previous Years",
+                aw_3: "Championship trophies and team awards won at UmakerFest, FIRST LEGO League (FLL), and various local tournaments.",
+                aw_4_title: "ApplyBAU & Education",
+                aw_4: "Successfully completed the BAU MOVE UP training program. Thanks to my projects, I received admission to Computer Engineering, Software Engineering, and Digital Game Design departments.",
+                footer: "> GCG_System.exit(); <br> &copy; 2026 Görkem Cem Güven. All systems nominal."
+            }
+        };
+
+        const typewriterTexts = {
+            de: ["Softwareentwickler", "Informatikstudent", "Web- & App-Entwickler", "Spieleentwickler", "Technikbegeisterter"],
+            en: ["Software Developer", "Computer Science Student", "Web & App Creator", "Game Developer", "Tech Enthusiast"]
+        };
+
+        let currentLang = 'de';
+
+        // --- TYPEWRITER LOGIC ---
+        let textIndex = 0; let charIndex = 0; let isDeleting = false; let typeTimeout;
+        const typedTextElement = document.getElementById("typed-text");
+
+        function type() {
+            const currentArray = typewriterTexts[currentLang];
+            const currentString = currentArray[textIndex];
+            
+            if (isDeleting) {
+                typedTextElement.textContent = currentString.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextElement.textContent = currentString.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentString.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % currentArray.length;
+                typeSpeed = 500;
+            }
+            typeTimeout = setTimeout(type, typeSpeed);
+        }
+        
+        typeTimeout = setTimeout(type, 1000);
+
+        // --- LANGUAGE SWITCHER LOGIC ---
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // UI Button Update
+            document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Text Update
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if (el.tagName === 'P' || el.tagName === 'SPAN' || el.tagName === 'A' || el.tagName === 'H4') {
+                        el.innerHTML = translations[lang][key]; 
+                    }
+                }
+            });
+
+            // Reset Typewriter cleanly
+            clearTimeout(typeTimeout);
+            isDeleting = false;
+            charIndex = 0;
+            textIndex = 0;
+            typedTextElement.textContent = '';
+            typeTimeout = setTimeout(type, 500);
+        }
+
+        // --- SCROLL ANIMATION ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
