@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawly - Authentic Photo Sharing App</title>
+    <link rel="icon" type="image/png" href="rawly_icon.jpg">
+    <style>
+        :root {
+            --primary-color: #6366F1; /* Modern Indigo/Violet accent */
+            --primary-hover: #4F46E5;
+            --bg-color: #0A0A0A;
+            --card-bg: #111827;
+            --text-color: #F9FAFB;
+            --muted-text: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        header {
+            padding: 2rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .beta-badge {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Main Hero Section */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #818CF8, #6366F1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--muted-text);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Buttons */
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 1rem 2.2rem;
+            border-radius: 14px;
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        /* App Preview Phone Mockup */
+        .app-preview {
+            margin-top: 3.5rem;
+            width: 100%;
+            max-width: 310px;
+            height: 620px;
+            background: var(--card-bg);
+            border-radius: 44px;
+            border: 8px solid #262626;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .app-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #171717;
+            border: 1px solid #262626;
+            padding: 2.5rem;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--muted-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-card p {
+            color: var(--muted-text);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #D1D5DB;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: #0A0A0A;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #FFF;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--primary-color);
+            color: #FFF;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted-text);
+            font-size: 0.85rem;
+            border-top: 1px solid #171717;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            header { padding: 1.5rem 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Rawly<span>.</span></div>
+        <div class="beta-badge">Closed Beta v1.0</div>
+    </header>
+
+    <main>
+        <div class="hero-content">
+            <h1>Capture moments, <span>unfiltered and real.</span></h1>
+            <p class="subtitle">Rawly sends daily random prompts to share authentic, real-time photo updates with your inner circle. No filters, no pressure.</p>
+            
+            <div class="cta-container">
+                <button class="btn-primary" onclick="openModal()">
+                    Join Closed Beta &rarr;
+                </button>
+            </div>
+
+            <div class="app-preview">
+                <img src="1.png" alt="Rawly App Preview">
+            </div>
+        </div>
+    </main>
+
+    <!-- Beta Application Form Modal -->
+    <div class="modal-overlay" id="betaModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2>Join the Closed Beta</h2>
+            <p>Get early access to Rawly on iOS or Android and help us shape the future of real-time photo sharing.</p>
+
+            <!-- Formspree Entegrasyonu (Sadece kendi ID'ni ekle) -->
+            <form action="https://formspree.io/f/mdobewzp" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="platform">Preferred Device</label>
+                    <select id="platform" name="platform" required>
+                        <option value="iOS">iOS (TestFlight)</option>
+                        <option value="Android">Android (APK / Internal Beta)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Request Access</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Rawly App. Created by Görkem Cem Güven. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function openModal() {
+            document.getElementById('betaModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('betaModal').style.display = 'none';
+        }
+
+        // Modal dışına tıklandığında kapatma
+        window.onclick = function(event) {
+            const modal = document.getElementById('betaModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
